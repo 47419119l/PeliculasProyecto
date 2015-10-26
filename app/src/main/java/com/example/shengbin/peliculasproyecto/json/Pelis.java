@@ -13,6 +13,7 @@ import javax.annotation.Generated;
 public class Pelis {
 
     private Integer id;
+    private java.util.List<com.example.shengbin.peliculasproyecto.json.Backdrop> list = new ArrayList<>();
     private List<Backdrop> backdrops = new ArrayList<Backdrop>();
     private List<Poster> posters = new ArrayList<Poster>();
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
@@ -40,7 +41,7 @@ public class Pelis {
      * @return
      * The backdrops
      */
-    public List<Backdrop> getBackdrops() {
+    public  List<Backdrop> getBackdrops() {
         return backdrops;
     }
 
@@ -77,6 +78,9 @@ public class Pelis {
 
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
+    }
+    public java.util.List<com.example.shengbin.peliculasproyecto.json.Backdrop> getList() {
+        return list;
     }
 
 }

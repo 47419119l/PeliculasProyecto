@@ -1,7 +1,7 @@
 package com.example.shengbin.peliculasproyecto.json;
 
 /**
- * Created by shengbin on 2015/10/26.
+ * Created by 47419119l on 2015/10/26.
  */
 import java.util.HashMap;
 import java.util.Map;
