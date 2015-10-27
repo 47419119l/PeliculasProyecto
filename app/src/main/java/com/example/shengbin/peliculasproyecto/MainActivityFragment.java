@@ -85,12 +85,14 @@ public class MainActivityFragment extends Fragment {
         }
 
         if (id == R.id.action_refresh) {
+            refresh();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
     private void refresh () {
+
         //Conectamos con la api
         final String BASE_URL = "https://api.themoviedb.org/3/discover/";
         Retrofit retrofit = new Retrofit.Builder()
@@ -98,20 +100,25 @@ public class MainActivityFragment extends Fragment {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         //Creamos el servicio
-         final ClientTheMovieDb service = retrofit.create(ClientTheMovieDb.class);
+        ClientTheMovieDb service = retrofit.create(ClientTheMovieDb.class);
 
         //Hacemos una llamada
-        Call<Movies> moviesCall=service.dailyForecast();
+        Call<Movies> moviesCall=service.popularityMovies();
+
         moviesCall.enqueue(new Callback<Movies>() {
             @Override
             public void onResponse(Response<Movies> response, Retrofit retrofit) {
-                Movies movies = response.body();
-                for(Result list : movies.getResults()){
+               if(response.isSuccess()) {
+                   Movies movies = response.body();
+                   adapter.clear();
 
-                    String title = list.getOriginalTitle();
-                    Double popularity= list.getPopularity();
-                    Log.w("list", String.format(title, " : ", popularity));
-                }
+                   for (Result list : movies.getResults()) {
+
+                       String title = list.getTitle();
+                       Double popularity = list.getPopularity();
+                       adapter.add(title + " : " + popularity);
+                   }
+               }
             }
 
             @Override
@@ -124,7 +131,7 @@ public class MainActivityFragment extends Fragment {
     public interface ClientTheMovieDb
     {
         @GET("movie?api_key=eec33652afa70e666fc6d094216e0714&sort_by=popularity.desc")
-        Call<Movies> dailyForecast();
+        Call<Movies> popularityMovies();
     }
 
 
