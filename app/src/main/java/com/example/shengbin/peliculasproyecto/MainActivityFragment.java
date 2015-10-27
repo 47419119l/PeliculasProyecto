@@ -14,16 +14,10 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import com.example.shengbin.peliculasproyecto.json.Pelis;
-import com.example.shengbin.peliculasproyecto.json.Poster;
-import com.example.shengbin.peliculasproyecto.json.Backdrop;
 
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-
+import com.example.shengbin.peliculasproyecto.json.Movies;
+import com.example.shengbin.peliculasproyecto.json.Result;
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.GsonConverterFactory;
@@ -96,33 +90,28 @@ public class MainActivityFragment extends Fragment {
 
         return super.onOptionsItemSelected(item);
     }
-    private void refresh ()
-    {
+    private void refresh () {
         //Conectamos con la api
-        final String BASE_URL = "https://api.themoviedb.org/3/movie/550/images?";
+        final String BASE_URL = "https://api.themoviedb.org/3/discover/";
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         //Creamos el servicio
-        ClientTheMovieDb service = retrofit.create(ClientTheMovieDb.class);
+         final ClientTheMovieDb service = retrofit.create(ClientTheMovieDb.class);
 
         //Hacemos una llamada
-        Call<Pelis> forecastCall=service.dailyForecast();
-        forecastCall.enqueue(new Callback<Pelis>() {
-
+        Call<Movies> moviesCall=service.dailyForecast();
+        moviesCall.enqueue(new Callback<Movies>() {
             @Override
-            public void onResponse(Response<Pelis> response, Retrofit retrofit) {
-                Pelis forecast = response.body();
-               // for(List list : Pelis.getList()){
-                   // Long dt = list.getDt();
-                    //String description = list.getWeather().get(0).getDescription();
-                    //Double min = list.getTemp().getMin();
-                    //Double max = list.getTemp().getMax();
+            public void onResponse(Response<Movies> response, Retrofit retrofit) {
+                Movies movies = response.body();
+                for(Result list : movies.getResults()){
 
-                    // Log.w("list",String.format())
-
-               // }
+                    String title = list.getOriginalTitle();
+                    Double popularity= list.getPopularity();
+                    Log.w("list", String.format(title, " : ", popularity));
+                }
             }
 
             @Override
@@ -131,12 +120,11 @@ public class MainActivityFragment extends Fragment {
             }
         });
 
-
     }
     public interface ClientTheMovieDb
     {
-        @GET("api_key=eec33652afa70e666fc6d094216e0714&movie?sort_by=popularity.desc")
-        Call<Pelis> dailyForecast();
+        @GET("movie?api_key=eec33652afa70e666fc6d094216e0714&sort_by=popularity.desc")
+        Call<Movies> dailyForecast();
     }
 
 
