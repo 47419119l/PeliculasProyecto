@@ -1,5 +1,6 @@
 package com.example.shengbin.peliculasproyecto;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -47,11 +48,7 @@ public class MainActivityFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-        String[] data = {
-                "Mision imposible",
-                "Harry Potter",
-                "Sr de los anillos"
-        };
+        String[] data = {};
 
         items = new ArrayList<>(Arrays.asList(data));
         adapter = new ArrayAdapter<>(
@@ -81,6 +78,8 @@ public class MainActivityFragment extends Fragment {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+
+
             return true;
         }
 
@@ -99,6 +98,7 @@ public class MainActivityFragment extends Fragment {
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
+
         //Creamos el servicio
         ClientTheMovieDb service = retrofit.create(ClientTheMovieDb.class);
 
@@ -132,8 +132,12 @@ public class MainActivityFragment extends Fragment {
     {
         @GET("movie?api_key=eec33652afa70e666fc6d094216e0714&sort_by=popularity.desc")
         Call<Movies> popularityMovies();
+
     }
-
-
+    @Override
+    public void onStart() {
+                super.onStart();
+               refresh();
+            }
 
 }
