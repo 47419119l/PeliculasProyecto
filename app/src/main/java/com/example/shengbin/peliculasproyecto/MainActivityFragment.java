@@ -1,7 +1,9 @@
 package com.example.shengbin.peliculasproyecto;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -93,8 +95,19 @@ public class MainActivityFragment extends Fragment {
     private void refresh () {
 
         ClientTheMovieDb apiClient = new ClientTheMovieDb();
-        apiClient.getPopularityMovies(adapter);
 
+        //apiClient.getPopularityMovies(adapter);
+        /*
+        Serveix per mostrar a les preferencies.
+         */
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+               String tipusConsulta = preferences.getString("tipus_consulta", "vistes");
+
+                        if (tipusConsulta.equals("vistes")) {
+                            apiClient.getPopularityMovies(adapter);
+                    } else {
+                            apiClient.getVoteAverage(adapter);
+                    }
 
 
     }

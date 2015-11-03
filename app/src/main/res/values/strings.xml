@@ -48,6 +48,14 @@
         <item>360</item>
         <item>-1</item>
     </string-array>
+    <string-array name="tipus_consulta_values">
+            <item>vistes</item>
+           <item>estrenes</item>
+    </string-array>
+    <string-array name="tipus_consulta_titles">
+           <item>Més Populas</item>
+            <item>Millor puntuades</item>
+    </string-array>
 
     <string name="pref_title_system_sync_settings">System sync settings</string>
 

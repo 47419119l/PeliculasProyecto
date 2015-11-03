@@ -30,4 +30,13 @@
         android:negativeButtonText="@null"
         android:positiveButtonText="@null" />
 
+    <ListPreference
+        android:defaultValue="vistes"
+        android:entries="@array/tipus_consulta_titles"
+        android:entryValues="@array/tipus_consulta_values"
+        android:key="tipus_consulta"
+        android:title="Llistat de pel·lícules a mostrar"
+        />
+
+
 </PreferenceScreen>

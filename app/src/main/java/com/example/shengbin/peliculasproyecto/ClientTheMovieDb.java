@@ -43,12 +43,36 @@ public class ClientTheMovieDb {
         moviesCall.enqueue(new Callback<Movies>() {
             @Override
             public void onResponse(Response<Movies> response, Retrofit retrofit) {
-                if(response.isSuccess()) {
+                if (response.isSuccess()) {
                     Movies movies = response.body();
                     adapter.clear();
                     for (Result list : movies.getResults()) {
                         String title = list.getTitle();
                         adapter.add(title);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                Log.w(null, Arrays.toString(t.getStackTrace()));
+            }
+        });
+    }
+    public void getVoteAverage(final ArrayAdapter adapter){
+
+        //Hacemos una llamada
+        Call<Movies> moviesCall=service.VoteAverage(API_KEY);
+        moviesCall.enqueue(new Callback<Movies>() {
+            @Override
+            public void onResponse(Response<Movies> response, Retrofit retrofit) {
+                if(response.isSuccess()) {
+                    Movies movies = response.body();
+                    adapter.clear();
+                    for (Result list : movies.getResults()) {
+                        String title = list.getTitle();
+                        double vote = list.getVoteCount();
+                        adapter.add(title+": vote -"+vote);
                     }
                 }
             }
@@ -62,8 +86,16 @@ public class ClientTheMovieDb {
 }
 interface ClientTheMovieDbInterface
 {
+    /*
+    Crida a la part variable del URL
+     */
     @GET("movie?sort_by=popularity.desc")
     Call<Movies> popularityMovies(
+            @Query("api_key") String api_key
+    );
+
+    @GET("movie?sort_by=vote_average.desc")
+    Call<Movies> VoteAverage(
             @Query("api_key") String api_key
     );
 
