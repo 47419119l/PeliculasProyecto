@@ -1,5 +1,8 @@
 package com.example.shengbin.peliculasproyecto.json;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,7 +11,7 @@ import java.util.Map;
 import javax.annotation.Generated;
 
 @Generated("org.jsonschema2pojo")
-public class Result implements Serializable {
+public class Result implements Parcelable {
 
     private boolean adult;
     private String backdropPath;
@@ -26,6 +29,25 @@ public class Result implements Serializable {
     private int voteCount;
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
+    public static final Parcelable.Creator<Result> CREATOR = new Parcelable.Creator<Result>() {
+                public Result createFromParcel(Parcel source) {
+                        return new Result(source);
+                    }
+
+                public Result[] newArray(int size) {
+                        return new Result[size];
+                    }
+            };
+    public Result(){
+
+    }
+    protected Result(Parcel in) {
+        this.releaseDate = in.readString();
+        this.popularity=(Double) in.readValue(Double.class.getClassLoader());
+        this.title=in.readString();
+        this.voteAverage= (Double) in.readValue(Double.class.getClassLoader());
+        this.voteCount= (Integer)in.readValue(Integer.class.getClassLoader());
+    }
     /**
      *
      * @return
@@ -286,4 +308,18 @@ public class Result implements Serializable {
         this.additionalProperties.put(name, value);
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        
+        dest.writeString(this.title);
+        dest.writeString(this.releaseDate);
+        dest.writeValue(this.popularity);
+        dest.writeValue(this.voteAverage);
+        dest.writeValue(this.voteCount);
+    }
 }

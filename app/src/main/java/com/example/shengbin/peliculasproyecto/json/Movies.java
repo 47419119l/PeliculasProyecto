@@ -1,5 +1,8 @@
 package com.example.shengbin.peliculasproyecto.json;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,13 +11,30 @@ import java.util.Map;
 import javax.annotation.Generated;
 
 @Generated("org.jsonschema2pojo")
-public class Movies implements Serializable {
+public class Movies implements Parcelable {
 
     private int page;
     public  List<Result> results = new ArrayList<Result>();
     private int totalPages;
     private int totalResults;
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+
+    public static final Parcelable.Creator<Movies> CREATOR = new Parcelable.Creator<Movies>() {
+        public Movies createFromParcel(Parcel source) {
+                        return new Movies(source);
+                    }
+
+        public Movies[] newArray(int size) {
+                       return new Movies[size];
+                    }
+        };
+    public Movies() {
+            }
+
+    protected Movies(Parcel in) {
+                this.results = in.createTypedArrayList(Result.CREATOR);
+
+            }
 
     /**
      *
@@ -102,4 +122,14 @@ public class Movies implements Serializable {
         this.additionalProperties.put(name, value);
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeTypedList(results);
+
+    }
 }
