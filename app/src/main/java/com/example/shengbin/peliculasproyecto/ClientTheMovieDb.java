@@ -36,7 +36,7 @@ public class ClientTheMovieDb {
     public ClientTheMovieDb(){
         super();
     }
-    public void getPopularityMovies(final ArrayAdapter adapter){
+    public void getPopularityMovies(final ArrayAdapter<Result> adapter){
 
         //Hacemos una llamada
         Call<Movies> moviesCall=service.popularityMovies(API_KEY);
@@ -46,9 +46,8 @@ public class ClientTheMovieDb {
                 if (response.isSuccess()) {
                     Movies movies = response.body();
                     adapter.clear();
-                    for (Result list : movies.getResults()) {
-                        String title = list.getTitle();
-                        adapter.add(title);
+                    for (Result pelicula : movies.getResults()) {
+                        adapter.add(pelicula);
                     }
                 }
             }
@@ -59,7 +58,7 @@ public class ClientTheMovieDb {
             }
         });
     }
-    public void getVoteAverage(final ArrayAdapter adapter){
+    public void getVoteAverage(final ArrayAdapter <Result> adapter){
 
         //Hacemos una llamada
         Call<Movies> moviesCall=service.VoteAverage(API_KEY);
@@ -69,10 +68,11 @@ public class ClientTheMovieDb {
                 if(response.isSuccess()) {
                     Movies movies = response.body();
                     adapter.clear();
-                    for (Result list : movies.getResults()) {
-                        String title = list.getTitle();
-                        double vote = list.getVoteCount();
-                        adapter.add(title+": vote -"+vote);
+                    for (Result pelicula : movies.getResults()) {
+                        /*
+                        L'hi passem un objecte.
+                         */
+                        adapter.add(pelicula);
                     }
                 }
             }
