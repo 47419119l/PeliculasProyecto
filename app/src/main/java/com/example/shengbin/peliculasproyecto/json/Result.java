@@ -1,5 +1,6 @@
 package com.example.shengbin.peliculasproyecto.json;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -7,7 +8,7 @@ import java.util.Map;
 import javax.annotation.Generated;
 
 @Generated("org.jsonschema2pojo")
-public class Result {
+public class Result implements Serializable {
 
     private boolean adult;
     private String backdropPath;
