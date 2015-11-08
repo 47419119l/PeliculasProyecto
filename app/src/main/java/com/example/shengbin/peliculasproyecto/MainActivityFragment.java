@@ -5,28 +5,18 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import java.util.List;
-import com.example.shengbin.peliculasproyecto.json.Movies;
 import com.example.shengbin.peliculasproyecto.json.Result;
-import retrofit.Call;
-import retrofit.Callback;
-import retrofit.GsonConverterFactory;
-import retrofit.Response;
-import retrofit.Retrofit;
-import retrofit.http.GET;
+
+import java.util.ArrayList;
 
 // API KEY : eec33652afa70e666fc6d094216e0714
 /**
@@ -51,7 +41,7 @@ public class MainActivityFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
         ListView listMovies = (ListView) rootView.findViewById(R.id.lvForecasts);
-        listMovies.setAdapter(adapter);
+
 
         items = new ArrayList<>();
         adapter=new ClientTheMovieDbPersonalitzat(
@@ -61,6 +51,17 @@ public class MainActivityFragment extends Fragment {
         );
 
         items = new ArrayList<>();
+        listMovies.setAdapter(adapter);
+        /*
+        Cridem a la nova activity quan apretem a un Item de la listView
+         */
+        listMovies.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+          @Override
+          public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+              Intent i = new Intent (getContext(),DetailActivity.class);
+              startActivity(i);
+          }
+      });
 
         return rootView;
     }
@@ -110,7 +111,6 @@ public class MainActivityFragment extends Fragment {
 
 
     }
-
     @Override
     public void onStart() {
                 super.onStart();
