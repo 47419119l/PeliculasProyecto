@@ -33,8 +33,8 @@ import retrofit.http.GET;
  * A placeholder fragment containing a simple view.
  */
 public class MainActivityFragment extends Fragment {
-    private ArrayList<String> items;
-    private ArrayAdapter<String> adapter;
+    private ArrayList<Result> items;
+    private ClientTheMovieDbPersonalitzat adapter;
     public MainActivityFragment() {
     }
     @Override
@@ -50,18 +50,17 @@ public class MainActivityFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-        String[] data = {};
+        ListView listMovies = (ListView) rootView.findViewById(R.id.lvForecasts);
+        listMovies.setAdapter(adapter);
 
-        items = new ArrayList<>(Arrays.asList(data));
-        adapter = new ArrayAdapter<>(
+        items = new ArrayList<>();
+        adapter=new ClientTheMovieDbPersonalitzat(
                 getContext(),
-                R.layout.list_row,
-                R.id.tvForecast,
+                R.layout.list_personalit_movies,
                 items
         );
 
-        ListView lvForecast = (ListView) rootView.findViewById(R.id.lvForecasts);
-        lvForecast.setAdapter(adapter);
+        items = new ArrayList<>();
 
         return rootView;
     }

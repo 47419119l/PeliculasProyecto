@@ -16,8 +16,8 @@ public class ClientTheMovieDbPersonalitzat extends ArrayAdapter<Result> {
     /*
     Creem constructor amb el super.
      */
-    public ClientTheMovieDbPersonalitzat(Context context, int resource, int textViewResourceId, List<Result> objects) {
-        super(context, resource, textViewResourceId, objects);
+    public ClientTheMovieDbPersonalitzat(Context context, int resource, List<Result> objects) {
+        super(context, resource, objects);
     }
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
