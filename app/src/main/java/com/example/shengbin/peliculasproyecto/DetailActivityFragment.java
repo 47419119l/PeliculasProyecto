@@ -7,10 +7,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.shengbin.peliculasproyecto.json.Result;
+import com.squareup.picasso.Picasso;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -44,7 +46,7 @@ public class DetailActivityFragment extends Fragment {
 
         titulo.setText(item.getOriginalTitle());
         data.setText(item.getReleaseDate());
-        popularity.setText(item.getPopularity()+" %");
+        popularity.setText(item.getPopularity() + " %");
         descripcio.setText(item.getOverview());
 
 

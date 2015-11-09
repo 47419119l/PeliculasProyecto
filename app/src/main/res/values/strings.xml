@@ -69,4 +69,6 @@
 
     <string name="pref_title_vibrate">Vibrate</string>
     <string name="title_activity_detail">DetailActivity</string>
+    <string name="poster">poster</string>
+    <string name="image">poster</string>
 </resources>
