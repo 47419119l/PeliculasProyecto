@@ -40,7 +40,7 @@ public class MainActivityFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-        ListView listMovies = (ListView) rootView.findViewById(R.id.lvForecasts);
+        final ListView listMovies = (ListView) rootView.findViewById(R.id.lvForecasts);
 
 
         items = new ArrayList<>();
@@ -62,7 +62,7 @@ public class MainActivityFragment extends Fragment {
               /*
               L'hi passem la opcio trida
                */
-              i.putExtra("movie", adapter.getItem(position));
+              i.putExtra("item", adapter.getItem(position));
               startActivity(i);
           }
       });

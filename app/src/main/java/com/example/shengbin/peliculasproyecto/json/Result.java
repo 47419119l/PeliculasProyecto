@@ -11,10 +11,10 @@ import java.util.Map;
 import javax.annotation.Generated;
 
 @Generated("org.jsonschema2pojo")
-public class Result implements Parcelable {
+public class Result implements Serializable {
 
     private boolean adult;
-    private String backdropPath;
+    private String backdrop_path;
     private List<Integer> genreIds = new ArrayList<Integer>();
     private int id;
     private String original_language;
@@ -29,25 +29,7 @@ public class Result implements Parcelable {
     private int vote_count;
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    public static final Parcelable.Creator<Result> CREATOR = new Parcelable.Creator<Result>() {
-                public Result createFromParcel(Parcel source) {
-                        return new Result(source);
-                    }
 
-                public Result[] newArray(int size) {
-                        return new Result[size];
-                    }
-            };
-    public Result(){
-
-    }
-    protected Result(Parcel in) {
-        this.release_date = in.readString();
-        this.popularity=(Double) in.readValue(Double.class.getClassLoader());
-        this.title=in.readString();
-        this.vote_average= (Double) in.readValue(Double.class.getClassLoader());
-        this.vote_count= (Integer)in.readValue(Integer.class.getClassLoader());
-    }
     /**
      *
      * @return
@@ -72,7 +54,7 @@ public class Result implements Parcelable {
      * The backdropPath
      */
     public String getBackdropPath() {
-        return backdropPath;
+        return backdrop_path;
     }
 
     /**
@@ -81,7 +63,7 @@ public class Result implements Parcelable {
      * The backdrop_path
      */
     public void setBackdropPath(String backdropPath) {
-        this.backdropPath = backdropPath;
+        this.backdrop_path = backdropPath;
     }
 
     /**
@@ -308,18 +290,5 @@ public class Result implements Parcelable {
         this.additionalProperties.put(name, value);
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        
-        dest.writeString(this.title);
-        dest.writeString(this.release_date);
-        dest.writeValue(this.popularity);
-        dest.writeValue(this.vote_average);
-        dest.writeValue(this.vote_count);
-    }
 }
