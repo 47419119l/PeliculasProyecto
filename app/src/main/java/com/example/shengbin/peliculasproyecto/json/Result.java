@@ -17,16 +17,16 @@ public class Result implements Parcelable {
     private String backdropPath;
     private List<Integer> genreIds = new ArrayList<Integer>();
     private int id;
-    private String originalLanguage;
-    private String originalTitle;
+    private String original_language;
+    private String original_title;
     private String overview;
-    private String releaseDate;
-    private String posterPath;
+    private String release_date;
+    private String poster_path;
     private double popularity;
     private String title;
     private boolean video;
-    private double voteAverage;
-    private int voteCount;
+    private double vote_average;
+    private int vote_count;
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     public static final Parcelable.Creator<Result> CREATOR = new Parcelable.Creator<Result>() {
@@ -42,11 +42,11 @@ public class Result implements Parcelable {
 
     }
     protected Result(Parcel in) {
-        this.releaseDate = in.readString();
+        this.release_date = in.readString();
         this.popularity=(Double) in.readValue(Double.class.getClassLoader());
         this.title=in.readString();
-        this.voteAverage= (Double) in.readValue(Double.class.getClassLoader());
-        this.voteCount= (Integer)in.readValue(Integer.class.getClassLoader());
+        this.vote_average= (Double) in.readValue(Double.class.getClassLoader());
+        this.vote_count= (Integer)in.readValue(Integer.class.getClassLoader());
     }
     /**
      *
@@ -126,7 +126,7 @@ public class Result implements Parcelable {
      * The originalLanguage
      */
     public String getOriginalLanguage() {
-        return originalLanguage;
+        return original_language;
     }
 
     /**
@@ -135,7 +135,7 @@ public class Result implements Parcelable {
      * The original_language
      */
     public void setOriginalLanguage(String originalLanguage) {
-        this.originalLanguage = originalLanguage;
+        this.original_language = originalLanguage;
     }
 
     /**
@@ -144,7 +144,7 @@ public class Result implements Parcelable {
      * The originalTitle
      */
     public String getOriginalTitle() {
-        return originalTitle;
+        return original_title;
     }
 
     /**
@@ -153,7 +153,7 @@ public class Result implements Parcelable {
      * The original_title
      */
     public void setOriginalTitle(String originalTitle) {
-        this.originalTitle = originalTitle;
+        this.original_title = originalTitle;
     }
 
     /**
@@ -180,7 +180,7 @@ public class Result implements Parcelable {
      * The releaseDate
      */
     public String getReleaseDate() {
-        return releaseDate;
+        return release_date;
     }
 
     /**
@@ -189,7 +189,7 @@ public class Result implements Parcelable {
      * The release_date
      */
     public void setReleaseDate(String releaseDate) {
-        this.releaseDate = releaseDate;
+        this.release_date = releaseDate;
     }
 
     /**
@@ -198,7 +198,7 @@ public class Result implements Parcelable {
      * The posterPath
      */
     public String getPosterPath() {
-        return posterPath;
+        return poster_path;
     }
 
     /**
@@ -207,7 +207,7 @@ public class Result implements Parcelable {
      * The poster_path
      */
     public void setPosterPath(String posterPath) {
-        this.posterPath = posterPath;
+        this.poster_path = posterPath;
     }
 
     /**
@@ -270,7 +270,7 @@ public class Result implements Parcelable {
      * The voteAverage
      */
     public double getVoteAverage() {
-        return voteAverage;
+        return vote_average;
     }
 
     /**
@@ -279,7 +279,7 @@ public class Result implements Parcelable {
      * The vote_average
      */
     public void setVoteAverage(double voteAverage) {
-        this.voteAverage = voteAverage;
+        this.vote_average = voteAverage;
     }
 
     /**
@@ -288,7 +288,7 @@ public class Result implements Parcelable {
      * The voteCount
      */
     public int getVoteCount() {
-        return voteCount;
+        return vote_count;
     }
 
     /**
@@ -297,7 +297,7 @@ public class Result implements Parcelable {
      * The vote_count
      */
     public void setVoteCount(int voteCount) {
-        this.voteCount = voteCount;
+        this.vote_count = voteCount;
     }
 
     public Map<String, Object> getAdditionalProperties() {
@@ -317,9 +317,9 @@ public class Result implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         
         dest.writeString(this.title);
-        dest.writeString(this.releaseDate);
+        dest.writeString(this.release_date);
         dest.writeValue(this.popularity);
-        dest.writeValue(this.voteAverage);
-        dest.writeValue(this.voteCount);
+        dest.writeValue(this.vote_average);
+        dest.writeValue(this.vote_count);
     }
 }

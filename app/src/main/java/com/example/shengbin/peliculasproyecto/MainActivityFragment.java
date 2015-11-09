@@ -105,13 +105,13 @@ public class MainActivityFragment extends Fragment {
         Serveix per mostrar a les preferencies.
          */
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-               String tipusConsulta = preferences.getString("tipus_consulta", "vistes");
+        String tipusConsulta = preferences.getString("tipus_consulta", "vistes");
 
-                        if (tipusConsulta.equals("vistes")) {
-                            apiClient.getPopularityMovies(adapter);
-                    } else {
-                            apiClient.getVoteAverage(adapter);
-                    }
+        if (tipusConsulta.equals("vistes")) {
+            apiClient.getPopularityMovies(adapter);
+        } else {
+            apiClient.getVoteAverage(adapter);
+        }
 
 
     }
