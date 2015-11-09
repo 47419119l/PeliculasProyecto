@@ -29,6 +29,8 @@ public class DetailActivityFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        final  String POSTER_BASE_URL = "http://image.tmdb.org/t/p/";
+        final String POSTER_SIZE="w185";
 
         View view = inflater.inflate(R.layout.fragment_detail, container, false);
 
@@ -37,6 +39,7 @@ public class DetailActivityFragment extends Fragment {
         data = (TextView)view.findViewById(R.id.dataEstrena);
         popularity = (TextView)view.findViewById(R.id.popularidad);
         descripcio = (TextView)view.findViewById(R.id.descripcio);
+        ImageView image = (ImageView)view.findViewById(R.id.poster);
 
         Intent i = getActivity().getIntent();
         Result item = (Result) i.getSerializableExtra("item");
@@ -49,6 +52,10 @@ public class DetailActivityFragment extends Fragment {
         popularity.setText(item.getPopularity() + " %");
         descripcio.setText(item.getOverview());
 
+        Picasso.with(getContext())
+                .load(POSTER_BASE_URL+POSTER_SIZE+item.getPosterPath())
+                .resize(500,560)
+                .into(image);
 
         return view;
     }
