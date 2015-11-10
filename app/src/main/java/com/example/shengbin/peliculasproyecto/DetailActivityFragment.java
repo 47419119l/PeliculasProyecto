@@ -40,21 +40,25 @@ public class DetailActivityFragment extends Fragment {
         popularity = (TextView)view.findViewById(R.id.popularidad);
         descripcio = (TextView)view.findViewById(R.id.descripcio);
         ImageView image = (ImageView)view.findViewById(R.id.poster);
-
+        /*
+        Fem un Intent per poder extreure el objecte que hem sel·lecionat
+         */
         Intent i = getActivity().getIntent();
         Result item = (Result) i.getSerializableExtra("item");
 
         Toast.makeText(getContext(), item.getOriginalTitle(), Toast.LENGTH_LONG).show();
 
-
+        /*
+        Extraiem la informació que volem mostrar
+         */
         titulo.setText(item.getOriginalTitle());
-        data.setText(item.getReleaseDate());
-        popularity.setText(item.getPopularity() + " %");
+        data.setText("Release Date : "+item.getReleaseDate());
+        popularity.setText("Popularity : "+item.getPopularity() + " %");
         descripcio.setText(item.getOverview());
 
         Picasso.with(getContext())
                 .load(POSTER_BASE_URL+POSTER_SIZE+item.getPosterPath())
-                .resize(500,560)
+                .resize(690,760)
                 .into(image);
 
         return view;

@@ -12,22 +12,27 @@
         android:layout_height="wrap_content"
         android:id="@+id/titulo"
         android:text="Titulo"
-        android:layout_alignParentTop="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Data estrena"
-        android:id="@+id/dataEstrena"
-        android:layout_below="@+id/titulo"
+        android:textStyle="bold"
+        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Data estrena"
+        android:textStyle="bold"
+        android:id="@+id/dataEstrena"
+        android:layout_marginTop="22dp"
+        android:layout_below="@+id/titulo" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="Popularidad"
+        android:textStyle="bold"
         android:id="@+id/popularidad"
+        android:layout_marginTop="22dp"
         android:layout_below="@+id/dataEstrena"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
@@ -38,16 +43,18 @@
         android:layout_height="wrap_content"
         android:id="@+id/descripcio"
         android:layout_below="@+id/popularidad"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignLeft="@+id/popularidad"
+        android:layout_alignStart="@+id/popularidad"
+        android:layout_marginTop="20dp" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/poster"
         android:layout_below="@+id/descripcio"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="44dp" />
+        android:layout_marginTop="44dp"
+        android:layout_centerVertical="true"
+        android:scaleType="centerInside"
+        android:layout_centerInParent="true"/>
 
 </RelativeLayout>

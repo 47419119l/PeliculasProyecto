@@ -115,6 +115,10 @@ public class MainActivityFragment extends Fragment {
 
 
     }
+
+    /**
+     * Metode que s'utilitza al executar la aplicació
+     */
     @Override
     public void onStart() {
                 super.onStart();
