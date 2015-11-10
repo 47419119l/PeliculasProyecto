@@ -12,6 +12,7 @@
             android:id="@+id/titleMovie"
             android:layout_width="wrap_content"
             android:text="Titulo"
+            android:textStyle="bold"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/data"
             android:layout_alignStart="@+id/data" />

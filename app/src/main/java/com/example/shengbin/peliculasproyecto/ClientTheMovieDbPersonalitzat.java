@@ -39,7 +39,7 @@ public class ClientTheMovieDbPersonalitzat extends ArrayAdapter<Result> {
 
         Picasso.with(getContext())
                 .load(POSTER_BASE_URL+POSTER_SIZE+pelicula.getPosterPath())
-                .resize(100,160)
+                .resize(190,250)
                 .into(image);
 
 

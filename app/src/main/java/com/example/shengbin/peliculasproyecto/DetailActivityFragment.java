@@ -58,7 +58,7 @@ public class DetailActivityFragment extends Fragment {
 
         Picasso.with(getContext())
                 .load(POSTER_BASE_URL+POSTER_SIZE+item.getPosterPath())
-                .resize(690,760)
+                .resize(690,750)
                 .into(image);
 
         return view;
