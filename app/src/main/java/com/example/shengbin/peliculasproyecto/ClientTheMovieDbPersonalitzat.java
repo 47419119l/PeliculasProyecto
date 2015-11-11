@@ -39,22 +39,8 @@ public class ClientTheMovieDbPersonalitzat extends ArrayAdapter<Result> {
 
         Picasso.with(getContext())
                 .load(POSTER_BASE_URL+POSTER_SIZE+pelicula.getPosterPath())
-                .resize(190,250)
+                .fit()
                 .into(image);
-
-
-        TextView titleMovies = (TextView) convertView.findViewById(R.id.titleMovie);
-        TextView data = (TextView) convertView.findViewById(R.id.data);
-        TextView popularity = (TextView) convertView.findViewById(R.id.popularity);
-        /*
-        Introduïm els valors
-         */
-        titleMovies.setText(pelicula.getTitle());
-        data.setText(pelicula.getReleaseDate());
-        popularity.setText((int) pelicula.getPopularity()+" %");
-
-
-
 
         /*
         Tornem la View plena
