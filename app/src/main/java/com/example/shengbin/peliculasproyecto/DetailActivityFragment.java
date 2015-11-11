@@ -52,13 +52,13 @@ public class DetailActivityFragment extends Fragment {
         Extraiem la informació que volem mostrar
          */
         titulo.setText(item.getOriginalTitle());
-        data.setText("Release Date : "+item.getReleaseDate());
-        popularity.setText("Popularity : "+item.getPopularity() + " %");
+        data.setText(item.getReleaseDate());
+        popularity.setText((int) item.getPopularity() + " %");
         descripcio.setText(item.getOverview());
 
         Picasso.with(getContext())
                 .load(POSTER_BASE_URL+POSTER_SIZE+item.getPosterPath())
-                .resize(690,750)
+                .fit()
                 .into(image);
 
         return view;
