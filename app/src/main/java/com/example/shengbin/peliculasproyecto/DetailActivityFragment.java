@@ -51,7 +51,8 @@ public class DetailActivityFragment extends Fragment {
         /*
         Extraiem la informació que volem mostrar
          */
-        titulo.setText(item.getOriginalTitle());
+        getActivity().setTitle(item.getTitle());
+        titulo.setText(item.getOriginalTitle().toUpperCase());
         data.setText(item.getReleaseDate());
         popularity.setText((int) item.getPopularity() + " %");
         descripcio.setText(item.getOverview());
@@ -62,6 +63,8 @@ public class DetailActivityFragment extends Fragment {
                 .into(image);
 
         return view;
+
+
     }
 
 
