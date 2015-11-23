@@ -37,6 +37,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.shengbin.peliculasproyecto.MainActivity" />
         </activity>
+
+        <provider
+            android:name="com.example.shengbin.peliculasproyecto.provider.MovieProvider"
+            android:authorities="com.example.shengbin.peliculasproyecto.provider"
+            android:exported="false" />
+
     </application>
+
+
 
 </manifest>

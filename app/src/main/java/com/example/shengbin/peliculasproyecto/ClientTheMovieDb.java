@@ -45,10 +45,13 @@ public class ClientTheMovieDb {
             public void onResponse(Response<Movies> response, Retrofit retrofit) {
                 if (response.isSuccess()) {
                     Movies movies = response.body();
+
                     adapter.clear();
+
                     for (Result pelicula : movies.getResults()) {
                         adapter.add(pelicula);
                     }
+
                 }
             }
 
