@@ -1,0 +1,13 @@
+{
+  "syntaxVersion": 3,
+  "projectPackageId": "com.example.shengbin.peliculasproyecto",
+  "authority": "com.example.shengbin.peliculasproyecto.provider",
+  "providerJavaPackage": "com.example.shengbin.peliculasproyecto.provider",
+  "providerClassName": "MovieProvider",
+  "sqliteOpenHelperClassName": "MovieSQLiteOpenHelper",
+  "sqliteOpenHelperCallbacksClassName": "MovieSQLiteOpenHelperCallbacks",
+  "databaseFileName": "peliculas.db",
+  "databaseVersion": 1,
+  "enableForeignKeys": true,
+  "useAnnotations": true
+}

@@ -1,0 +1,29 @@
+{
+  "fields": [
+    {
+      "name": "movie_title",
+      "type": "String"
+
+    },
+    {
+      "name": "movie_description",
+      "type": "String"
+
+    },
+    {
+      "name": "movie_popularity",
+      "type": "String"
+
+    },
+    {
+      "name": "movie_poster",
+      "type": "String"
+
+    },
+    {
+      "name": "movie_date",
+      "type": "String"
+
+    }
+  ]
+}
