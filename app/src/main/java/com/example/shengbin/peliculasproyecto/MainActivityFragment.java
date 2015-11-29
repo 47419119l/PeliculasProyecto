@@ -1,7 +1,10 @@
 package com.example.shengbin.peliculasproyecto;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -13,10 +16,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.ListView;
 
-import com.example.shengbin.peliculasproyecto.json.Result;
+import com.example.shengbin.peliculasproyecto.provider.movies.MoviesColumns;
 
+
+import java.io.Serializable;
 import java.util.ArrayList;
 
 // API KEY : eec33652afa70e666fc6d094216e0714
@@ -24,57 +28,51 @@ import java.util.ArrayList;
  * A placeholder fragment containing a simple view.
  */
 public class MainActivityFragment extends Fragment {
-    private ArrayList<Result> items;
-    private ClientTheMovieDbPersonalitzat adapter;
+    private AdapterTheMovieDbSQLiteList adapter;
+    Cursor cursor;
+
     public MainActivityFragment() {
     }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setHasOptionsMenu(true);
 
     }
-
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-        final GridView listMovies = (GridView) rootView.findViewById(R.id.lvForecasts);
+        GridView listMovies = (GridView) rootView.findViewById(R.id.lvForecasts);
 
-
-        items = new ArrayList<>();
-        adapter=new ClientTheMovieDbPersonalitzat(
+        adapter=new AdapterTheMovieDbSQLiteList(
                 getContext(),
                 R.layout.list_personalit_movies,
-                items
-        );
-
-        items = new ArrayList<>();
+                null,
+                new String []{MoviesColumns.MOVIE_POSTER},
+                new int[]{R.id.imageView},
+                0);
         listMovies.setAdapter(adapter);
-        /*
-        Cridem a la nova activity quan apretem a un Item de la listView
-         */
+
         listMovies.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-          @Override
-          public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-              Intent i = new Intent (getContext(),DetailActivity.class);
-              /*
-              L'hi passem la opcio trida
-               */
-              i.putExtra("item", adapter.getItem(position));
-              startActivity(i);
-          }
-      });
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent i = new Intent(getContext(),DetailActivity.class);
+                i.putExtra( "cursor", id);
+                startActivity(i);
+            }
+        });
+
 
         return rootView;
     }
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-       inflater.inflate(R.menu.menu_pelis_action, menu);
+        inflater.inflate(R.menu.menu_pelis_action, menu);
     }
 
     @Override
@@ -86,7 +84,6 @@ public class MainActivityFragment extends Fragment {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-
 
             return true;
         }
@@ -100,9 +97,9 @@ public class MainActivityFragment extends Fragment {
     }
     private void refresh () {
 
-        ClientTheMovieDb apiClient = new ClientTheMovieDb();
+        ClientTheMovieDb apiClient = new ClientTheMovieDb(getContext());
 
-        //apiClient.getPopularityMovies(adapter);
+        apiClient.getPopularityMovies(cursor,adapter);
         /*
         Serveix per mostrar a les preferencies.
          */
@@ -110,9 +107,9 @@ public class MainActivityFragment extends Fragment {
         String tipusConsulta = preferences.getString("tipus_consulta", "vistes");
 
         if (tipusConsulta.equals("vistes")) {
-            apiClient.getPopularityMovies(adapter);
+            apiClient.getPopularityMovies(cursor,adapter);
         } else {
-            apiClient.getVoteAverage(adapter);
+            // apiClient.getVoteAverage(cursor,adapter);
         }
 
 
@@ -123,8 +120,8 @@ public class MainActivityFragment extends Fragment {
      */
     @Override
     public void onStart() {
-                super.onStart();
-               refresh();
-            }
+        super.onStart();
+        refresh();
+    }
 
 }
