@@ -1,14 +1,19 @@
 package com.example.shengbin.peliculasproyecto;
 
 import android.annotation.TargetApi;
+import android.content.ContentValues;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Build;
 
 import com.example.shengbin.peliculasproyecto.json.Movies;
 import com.example.shengbin.peliculasproyecto.json.Result;
+
 import com.example.shengbin.peliculasproyecto.provider.movies.MoviesColumns;
 import com.example.shengbin.peliculasproyecto.provider.movies.MoviesContentValues;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit.Call;
 import retrofit.Callback;
@@ -45,6 +50,7 @@ public class ClientTheMovieDb {
         CargarPelisInternet pelisInternet = new CargarPelisInternet();
         pelisInternet.execute();
     }
+
     public void getPopularityMovies(){
         //Hacemos una llamada
         Call<Movies> moviesCall=service.popularityMovies(API_KEY);
@@ -54,19 +60,25 @@ public class ClientTheMovieDb {
             public void onResponse(Response<Movies> response, Retrofit retrofit) {
                 if (response.isSuccess()) {
                     Movies movies = response.body();
+                    ContentValues [] bulkToInsert;
+
+                    List<ContentValues> mValueList = new ArrayList<>();
 
                     for (Result pelicula : movies.getResults()) {
 
                         MoviesContentValues moviesValues = new MoviesContentValues();
-
                         moviesValues.putMovieDate(pelicula.getReleaseDate());
                         moviesValues.putMovieDescription(pelicula.getOverview());
                         moviesValues.putMoviePopularity(String.valueOf(pelicula.getPopularity()));
                         moviesValues.putMovieTitle(pelicula.getTitle());
                         moviesValues.putMoviePoster(pelicula.getPosterPath());
-                        context.getContentResolver().insert(MoviesColumns.CONTENT_URI, moviesValues.values());
+                        mValueList.add(moviesValues.values());
 
                     }
+
+                    bulkToInsert=new ContentValues[mValueList.size()];
+                    mValueList.toArray(bulkToInsert);
+                    context.getContentResolver().bulkInsert(MoviesColumns.CONTENT_URI,bulkToInsert);
 
                 }
             }
@@ -81,12 +93,16 @@ public class ClientTheMovieDb {
 
         //Hacemos una llamada
         Call<Movies> moviesCall=service.VoteAverage(API_KEY);
+
         moviesCall.enqueue(new Callback<Movies>() {
             @TargetApi(Build.VERSION_CODES.HONEYCOMB)
             @Override
             public void onResponse(Response<Movies> response, Retrofit retrofit) {
                 if (response.isSuccess()) {
                     Movies movies = response.body();
+                    ContentValues [] bulkToInsert;
+
+                    List<ContentValues> mValueList = new ArrayList<>();
 
                     for (Result pelicula : movies.getResults()) {
 
@@ -96,9 +112,13 @@ public class ClientTheMovieDb {
                         moviesValues.putMoviePopularity(String.valueOf(pelicula.getPopularity()));
                         moviesValues.putMovieTitle(pelicula.getTitle());
                         moviesValues.putMoviePoster(pelicula.getPosterPath());
-                        context.getContentResolver().insert(MoviesColumns.CONTENT_URI, moviesValues.values());
+                        mValueList.add(moviesValues.values());
 
                     }
+
+                    bulkToInsert=new ContentValues[mValueList.size()];
+                    mValueList.toArray(bulkToInsert);
+                    context.getContentResolver().bulkInsert(MoviesColumns.CONTENT_URI,bulkToInsert);
 
                 }
             }
@@ -113,6 +133,11 @@ public class ClientTheMovieDb {
 
 
     private void deleteOldMovies(long syncTime) {
+        context.getContentResolver().delete(
+                MoviesColumns.CONTENT_URI,
+                null,
+                new String[]{Long.toString(syncTime)});
+
         context.getContentResolver().delete(
                 MoviesColumns.CONTENT_URI,
                 null,
@@ -141,11 +166,9 @@ public class ClientTheMovieDb {
         @Override
         protected Object doInBackground(Object[] params) {
 
-            Call<Movies> callMesVistes = service.popularityMovies( API_KEY);
-            Call<Movies> callProximesEstrenes = service.VoteAverage(API_KEY);
-            long syncTime = System.currentTimeMillis();
             getPopularityMovies();
             getVoteAverage();
+            long syncTime = System.currentTimeMillis();
             deleteOldMovies(syncTime);
             return null;
         }

@@ -15,11 +15,11 @@ import com.example.shengbin.peliculasproyecto.provider.movies.MoviesColumns;
 /**
  * Created by shengbin on 2015/11/27.
  */
-public class AdapterTheMovieDbSQLiteList extends SimpleCursorAdapter {
+public class AdapterTheMovieDbCursor extends SimpleCursorAdapter {
     Context  context;
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public AdapterTheMovieDbSQLiteList(Context context, int layout, Cursor c, String[] from, int[] to, int flags) {
+    public AdapterTheMovieDbCursor(Context context, int layout, Cursor c, String[] from, int[] to, int flags) {
         super(context, layout, c, from, to, flags);
         this.context= context;
 

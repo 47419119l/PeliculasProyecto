@@ -3,23 +3,21 @@
     android:layout_height="match_parent"
 tools:showIn="@layout/activity_main"
     tools:context=".MainActivityFragment">
-    <ListView
-        android:id="@+id/lvForecasts1"
+
+    <android.support.v4.widget.SwipeRefreshLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginBottom="58dp" />
+        android:id="@+id/srlRefresh">
 
 
-    <GridView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/lvForecasts"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:columnWidth="90dp"
-        android:numColumns="auto_fit"
-        android:stretchMode="columnWidth"
-        android:gravity="center"
-        />
-
+        <GridView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/lvForecasts"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:columnWidth="90dp"
+            android:numColumns="auto_fit"
+            android:stretchMode="columnWidth"
+            android:gravity="center"
+            />
+    </android.support.v4.widget.SwipeRefreshLayout>
 </RelativeLayout>

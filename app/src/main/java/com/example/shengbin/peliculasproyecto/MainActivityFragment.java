@@ -1,7 +1,6 @@
 package com.example.shengbin.peliculasproyecto;
 
 import android.annotation.TargetApi;
-import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -22,6 +21,7 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 
 
+
 import com.example.shengbin.peliculasproyecto.provider.movies.MoviesColumns;
 
 // API KEY : eec33652afa70e666fc6d094216e0714
@@ -29,16 +29,26 @@ import com.example.shengbin.peliculasproyecto.provider.movies.MoviesColumns;
  * A placeholder fragment containing a simple view.
  */
 public class MainActivityFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
-    private AdapterTheMovieDbSQLiteList adapter;
+    private AdapterTheMovieDbCursor adapter;
+    private SwipeRefreshLayout srlRefresh;
+
+
 
     public MainActivityFragment() {
     }
+    @Override
+    public void onStart() {
+        super.onStart();
+        getLoaderManager().restartLoader(0, null, this);
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
 
     }
+
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,14 +58,17 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
 
         GridView listMovies = (GridView) rootView.findViewById(R.id.lvForecasts);
 
-        adapter=new AdapterTheMovieDbSQLiteList(
-                getContext(),
-                R.layout.list_personalit_movies,
-                null,
-                new String []{MoviesColumns.MOVIE_POSTER},
-                new int[]{R.id.imageView},
-                0);
-        getLoaderManager().initLoader(0,null,this);
+
+            adapter=new AdapterTheMovieDbCursor(
+                    getContext(),
+                    R.layout.list_personalit_movies,
+                    null,
+                    new String []{MoviesColumns.MOVIE_POSTER},
+                    new int[]{R.id.imageView},
+                    0);
+
+        //Iniciar Loader
+        getLoaderManager().initLoader(0, null, this);
         listMovies.setAdapter(adapter);
 
         listMovies.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -64,6 +77,13 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
                 Intent i = new Intent(getContext(), DetailActivity.class);
                 i.putExtra("cursor", id);
                 startActivity(i);
+            }
+        });
+        srlRefresh=(SwipeRefreshLayout)rootView.findViewById(R.id.srlRefresh);
+        srlRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refresh();
             }
         });
         return rootView;
@@ -96,9 +116,10 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
         return super.onOptionsItemSelected(item);
     }
     private void refresh () {
-
+        srlRefresh.setRefreshing(true);
         ClientTheMovieDb apiClient = new ClientTheMovieDb(getContext());
         apiClient.getMovies();
+        srlRefresh.setRefreshing(false);
 
     }
     @Override
@@ -134,5 +155,9 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         adapter.swapCursor(null);
+    }
+
+    public interface OnMovieSelectedListener{
+        void onMovieSelected(long id);
     }
 }
