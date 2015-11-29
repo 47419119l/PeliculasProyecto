@@ -1,6 +1,7 @@
 package com.example.shengbin.peliculasproyecto;
 
 import android.annotation.TargetApi;
+import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -8,6 +9,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,19 +21,15 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
+
 import com.example.shengbin.peliculasproyecto.provider.movies.MoviesColumns;
-
-
-import java.io.Serializable;
-import java.util.ArrayList;
 
 // API KEY : eec33652afa70e666fc6d094216e0714
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MainActivityFragment extends Fragment {
+public class MainActivityFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
     private AdapterTheMovieDbSQLiteList adapter;
-    Cursor cursor;
 
     public MainActivityFragment() {
     }
@@ -55,18 +55,17 @@ public class MainActivityFragment extends Fragment {
                 new String []{MoviesColumns.MOVIE_POSTER},
                 new int[]{R.id.imageView},
                 0);
+        getLoaderManager().initLoader(0,null,this);
         listMovies.setAdapter(adapter);
 
         listMovies.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent i = new Intent(getContext(),DetailActivity.class);
-                i.putExtra( "cursor", id);
+                Intent i = new Intent(getContext(), DetailActivity.class);
+                i.putExtra("cursor", id);
                 startActivity(i);
             }
         });
-
-
         return rootView;
     }
     @Override
@@ -85,6 +84,7 @@ public class MainActivityFragment extends Fragment {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
 
+
             return true;
         }
 
@@ -98,30 +98,41 @@ public class MainActivityFragment extends Fragment {
     private void refresh () {
 
         ClientTheMovieDb apiClient = new ClientTheMovieDb(getContext());
+        apiClient.getMovies();
 
-        apiClient.getPopularityMovies(cursor,adapter);
-        /*
-        Serveix per mostrar a les preferencies.
-         */
+    }
+    @Override
+    public android.support.v4.content.Loader<Cursor> onCreateLoader(int id, Bundle args) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         String tipusConsulta = preferences.getString("tipus_consulta", "vistes");
 
         if (tipusConsulta.equals("vistes")) {
-            apiClient.getPopularityMovies(cursor,adapter);
+            return new android.support.v4.content.CursorLoader(getContext(),
+                    MoviesColumns.CONTENT_URI,
+                    null,
+                    null,
+                    null,
+                    "_id");
         } else {
-            // apiClient.getVoteAverage(cursor,adapter);
+            return new android.support.v4.content.CursorLoader(
+                    getContext(),
+                    MoviesColumns.CONTENT_URI,
+                    null,
+                    null,
+                    null,
+                    "_id");
         }
-
-
     }
 
-    /**
-     * Metode que s'utilitza al executar la aplicació
-     */
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
-    public void onStart() {
-        super.onStart();
-        refresh();
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        adapter.swapCursor(data);
     }
 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        adapter.swapCursor(null);
+    }
 }

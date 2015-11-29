@@ -22,6 +22,7 @@ public class AdapterTheMovieDbSQLiteList extends SimpleCursorAdapter {
     public AdapterTheMovieDbSQLiteList(Context context, int layout, Cursor c, String[] from, int[] to, int flags) {
         super(context, layout, c, from, to, flags);
         this.context= context;
+
     }
 
     @Override
